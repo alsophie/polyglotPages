@@ -1,0 +1,75 @@
+<?php
+include "../../app/controllers/posts.php";
+?>
+<!doctype html>
+<html lang="ru">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- Custom Styling -->
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>PolyglotPages</title>
+</head>
+<body>
+
+<?php include("../../app/include/header-admin.php"); ?>
+
+<div class="container">
+    <?php include "../../app/include/sidebar-admin.php"; ?>
+
+    <div class="posts col-9">
+        <div class="row title-table">
+            <h2>Редактирование статьи</h2>
+        </div>
+        <div class="row add-post">
+            <div class="mb-12 col-12 col-md-12 err">
+                <p><?=$errMsg?></p>
+            </div>
+            <form action="edit.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?=$id; ?>">
+                <div class="col mb-4">
+                    <input value="<?=$post['title']; ?>" name="title" type="text" class="form-control" placeholder="Название статьи" aria-label="Название статьи">
+                </div>
+                <div class="col">
+                    <label for="editor" class="form-label">Содержимое статьи</label>
+                    <textarea name="content" id="editor" class="form-control" rows="6"><?=$post['content']; ?></textarea>
+                </div>
+                <div class="input-group col mb-4 mt-4">
+                        <input name="img" value="<?=$post['image']; ?>" type="text" class="form-control" placeholder="Ссылка на изображение" aria-label="Ссылка на изображение">
+                    </div>
+
+                <select name="topic" class="form-select mb-2" aria-label="Default select example">
+                    <option value="<?=$post['id_topic']; ?>" selected><?= selectOne('topics', ['id' => $post['id_topic']])['name']; ?></option>
+                    <?php foreach ($topics as $key => $topic): ?>
+                        <?php if ($topic['id'] !== $post['id_topic']): ?>
+                            <option value="<?=$topic['id']; ?>"><?=$topic['name'];?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+                <div class="col col-6">
+                    <button name="post-edit" class="btn btn-primary" type="submit">Сохранить статью</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<!-- footer -->
+<?php include("../../app/include/footer.php"); ?>
+<!-- // footer -->
+</body>
+</html>
